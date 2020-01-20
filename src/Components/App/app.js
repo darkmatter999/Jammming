@@ -3,6 +3,7 @@ import './app.css';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
+import Spotify from '../../util/Spotify';
 
 /*
 function App() {
@@ -27,11 +28,9 @@ function App() {
 }
 */
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchResults: [
+//For reference, here are the hard-coded 'Search Results'
+/*
+searchResults: [
         {name: '1999',
         artist: 'Prince',
         album: '1999',
@@ -44,6 +43,15 @@ class App extends React.Component {
          artist: 'David Bowie',
          album: 'Space Oddity',
          id: '3333'}
+      ],
+  */
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchResults: [
+        
       ],
       playlistName: 'Playlist v1',
       playlistTracks: [
@@ -83,11 +91,13 @@ class App extends React.Component {
   }
 
   savePlaylist() {
-    let trackURIs = [];
+    const trackUris = this.state.playlistTracks.map(track => track);
   }
 
   search(term) {
-    console.log(term);
+    Spotify.search(term).then((searchResults) => {
+      this.setState({searchResults: searchResults})
+    })
   }
 
   render() {
