@@ -12,6 +12,10 @@ class Playlist extends React.Component {
         //console.log(this.props.playlistName);
     }
 
+    save() {
+        this.props.onSave(this.props.playlistName, this.props.trackUris);
+    }
+
     render() {
         return (
             <div className="Playlist">

@@ -41,7 +41,7 @@ const Spotify = {
             if (!jsonResponse.tracks) {
                 alert('no jsonResponse.tracks')
             } else {
-                console.log(jsonResponse)
+                //console.log(jsonResponse)
             }
             
             if (jsonResponse.tracks) {
@@ -60,6 +60,49 @@ const Spotify = {
                 alert('nothing to show')
             }
         })
+    },
+
+    savePlaylist(name, trackUris) {
+        if (!name || !trackUris.length) {
+            return
+        } else {
+            const Token = Spotify.getAccessToken();
+            //console.log(Token)
+            const headers = {
+                Authorization: `Bearer ${Token}`
+            };
+            let userId;
+            return fetch('https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/me',
+            {headers: headers})
+            .then((response) => {
+                return response.json()
+            })
+            .then((jsonResponse) => {
+                userId = jsonResponse.id;
+                //console.log(userId)
+                return fetch(`https://cors-anywhere.herokuapp.com/https://api.spotify.com//v1/users/${userId}/playlists`,
+                {
+                    headers: headers,
+                    method: 'POST',
+                    body: JSON.stringify({name: name})
+                })
+                .then((response) => {
+                    return response.json()
+                })
+                .then((jsonResponse) => {
+                    console.log(jsonResponse)
+                    let playlistID;
+                    playlistID = jsonResponse.id;
+                    return fetch(`https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/users/${userId}/playlists/${playlistID}/tracks`,
+                    {
+                        headers: headers,
+                        method: 'POST',
+                        body: JSON.stringify({uris: trackUris})
+                    })
+                    
+                })
+            })
+        }
     }
 
 }
