@@ -72,6 +72,7 @@ class App extends React.Component {
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
+    this.resetPlaylist = this.resetPlaylist.bind(this);
     this.search = this.search.bind(this);
   }
 
@@ -100,10 +101,22 @@ class App extends React.Component {
         playlistName: 'New Playlist',
         playlistTracks: []
       })
+    console.log(this.state.playlistName)
     })
   }
 
+  // added functionality that resets all saved tracks in Playlist
+  resetPlaylist() {
+    this.setState({
+      playlistName: 'Ne Playlist',
+      playlistTracks: []
+    });
+    
+    //console.log(this.state.playlistName)
+  }
+
   search(term) {
+    console.log(this.state.playlistName);
     Spotify.search(term).then((searchResults) => {
       this.setState({searchResults: searchResults})
     })
@@ -121,7 +134,7 @@ class App extends React.Component {
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
             {/*<!-- Add a Playlist component -->*/}
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}
-            onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} />
+            onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} onReset={this.resetPlaylist} />
           </div>
         </div>
       </div>
