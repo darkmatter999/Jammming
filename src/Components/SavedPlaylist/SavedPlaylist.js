@@ -7,15 +7,9 @@ class SavedPlaylist extends React.Component {
         this.removePlaylist = this.removePlaylist.bind(this)
     }
     renderAction() {
-        if (this.props.isRemoval === true) {
             return (
                 <button className="Track-action" onClick={this.removePlaylist}>-</button>
             )
-        } else { 
-            return (
-                <button className="Track-action" onClick={this.addPlaylist}>+</button>
-        )
-        }
     }
 
     removePlaylist() {

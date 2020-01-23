@@ -76,6 +76,7 @@ class App extends React.Component {
     this.savePlaylist = this.savePlaylist.bind(this);
     this.resetPlaylist = this.resetPlaylist.bind(this);
     this.addPlaylist = this.addPlaylist.bind(this);
+    this.removePlaylist = this.removePlaylist.bind(this);
     this.search = this.search.bind(this);
   }
 
@@ -98,8 +99,15 @@ class App extends React.Component {
   }
 
   removeTrack(track) {
+      //console.log(this.state.playlists)
       let tracks = this.state.playlistTracks.filter(toBeKeptTrack => toBeKeptTrack.id !== track.id);
       this.setState({playlistTracks: tracks});
+  }
+
+  removePlaylist(playlist) {
+      //console.log(this.state.playlists)
+      let newPlaylists = this.state.playlists.filter(toBeKeptPlaylist => toBeKeptPlaylist.name !== playlist.name);
+      this.setState({playlists: newPlaylists})
   }
 
   updatePlaylistName(name) {
@@ -147,7 +155,7 @@ class App extends React.Component {
             {/*<!-- Add a Playlist component -->*/}
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}
             onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} onReset={this.resetPlaylist} onAddPlaylist={this.addPlaylist} />
-            <Playlists playlists={this.state.playlists} />
+            <Playlists playlists={this.state.playlists} onRemovePlaylist={this.removePlaylist} />
           </div>
         </div>
       </div>

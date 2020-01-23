@@ -12,7 +12,7 @@ class Playlists extends React.Component {
                     {/*<h1>
                         {this.props.playlists.slice(0, this.props.playlists.length)}
                     </h1>*/}
-                    <SavedPlaylistList playlists={this.props.playlists} />
+                    <SavedPlaylistList playlists={this.props.playlists} onRemovePlaylist={this.props.onRemovePlaylist} isRemoval={true} />
                 </div>
             </div>
         )
