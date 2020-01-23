@@ -8,6 +8,7 @@ class Playlist extends React.Component {
         this.handleNameChange = this.handleNameChange.bind(this);
         this.reset = this.reset.bind(this);
         this.save = this.save.bind(this);
+        this.add = this.add.bind(this);
     }
     handleNameChange(e) {
         this.props.onNameChange(e.target.value)
@@ -25,6 +26,10 @@ class Playlist extends React.Component {
         document.getElementById('playlist').reset();
     }
 
+    add() {
+        this.props.onAddPlaylist();
+    }
+
     render() {
         return (
             <div className="Playlist">
@@ -34,6 +39,7 @@ class Playlist extends React.Component {
                 {/*<!-- Add a TrackList component -->*/}
                 <TrackList tracks={this.props.playlistTracks} onRemove={this.props.onRemove} isRemoval={true} />
                 <button className="Playlist-save" onClick={this.reset}>RESET PLAYLIST</button>
+                <button className="Playlist-save" onClick={this.add}>SAVE TO PLAYLISTS</button>
                 <button className="Playlist-save" onClick={this.save}>SAVE TO SPOTIFY</button>
             </div>
         )

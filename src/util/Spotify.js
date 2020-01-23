@@ -1,4 +1,3 @@
-import SearchBar from "../Components/SearchBar/SearchBar";
 
 let accessToken;
 const clientId = 'feeab8a12c9b43e9acd3ca668483d631';

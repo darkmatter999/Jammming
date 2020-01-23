@@ -3,6 +3,7 @@ import './app.css';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
+import Playlists from '../Playlists/Playlists';
 import Spotify from '../../util/Spotify';
 
 /*
@@ -67,12 +68,14 @@ class App extends React.Component {
       playlistTracks: [
         
       ],
+      playlists: []
     };
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.resetPlaylist = this.resetPlaylist.bind(this);
+    this.addPlaylist = this.addPlaylist.bind(this);
     this.search = this.search.bind(this);
   }
 
@@ -83,6 +86,15 @@ class App extends React.Component {
       this.state.playlistTracks.push(track)
     }
     this.setState({playlistTracks: this.state.playlistTracks});
+  }
+
+  addPlaylist() {
+    this.state.playlists.push({
+      name: this.state.playlistName,
+      tracks: this.state.playlistTracks
+    });
+    this.setState({playlists: this.state.playlists});
+    //console.log(this.state.playlists[0][0])
   }
 
   removeTrack(track) {
@@ -108,7 +120,7 @@ class App extends React.Component {
   // added functionality that resets all saved tracks in Playlist
   resetPlaylist() {
     this.setState({
-      playlistName: 'Ne Playlist',
+      playlistName: 'New Playlist',
       playlistTracks: []
     });
     
@@ -134,7 +146,8 @@ class App extends React.Component {
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
             {/*<!-- Add a Playlist component -->*/}
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}
-            onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} onReset={this.resetPlaylist} />
+            onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} onReset={this.resetPlaylist} onAddPlaylist={this.addPlaylist} />
+            <Playlists playlists={this.state.playlists} />
           </div>
         </div>
       </div>
