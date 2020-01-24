@@ -74,6 +74,7 @@ class App extends React.Component {
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
+    this.savePlaylistFromPlaylists = this.savePlaylistFromPlaylists.bind(this);
     this.resetPlaylist = this.resetPlaylist.bind(this);
     this.addPlaylist = this.addPlaylist.bind(this);
     this.removePlaylist = this.removePlaylist.bind(this);
@@ -125,6 +126,20 @@ class App extends React.Component {
     })
   }
 
+  savePlaylistFromPlaylists(playlist) {
+    const trackUris = playlist.tracks.map(track => track.uri);
+    Spotify.savePlaylist(playlist.name, trackUris)
+    /*
+    .then(() => {
+      this.setState({
+        playlistName: 'New Playlist',
+        playlistTracks: []
+      })
+      */
+    //console.log(this.state.playlistName)
+    
+  }
+
   // added functionality that resets all saved tracks in Playlist
   resetPlaylist() {
     this.setState({
@@ -155,7 +170,7 @@ class App extends React.Component {
             {/*<!-- Add a Playlist component -->*/}
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}
             onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} onReset={this.resetPlaylist} onAddPlaylist={this.addPlaylist} />
-            <Playlists playlists={this.state.playlists} onRemovePlaylist={this.removePlaylist} />
+            <Playlists playlists={this.state.playlists} onRemovePlaylist={this.removePlaylist} onSavePlaylistFromPlaylists={this.savePlaylistFromPlaylists} />
           </div>
         </div>
       </div>
