@@ -9,7 +9,7 @@ class SavedPlaylistList extends React.Component {
                 {/*<!-- You will add a map method that renders a set of Track components  -->*/}
                 {this.props.playlists.map((playlist) => {
                     return <SavedPlaylist playlist = {playlist} onRemovePlaylist={this.props.onRemovePlaylist}
-                    onSavePlaylistFromPlaylists={this.props.onSavePlaylistFromPlaylists} />
+                    onSavePlaylistFromPlaylists={this.props.onSavePlaylistFromPlaylists} isSaved={this.props.isSaved} />
                 })}
             </div>
         )

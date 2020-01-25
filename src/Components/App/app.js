@@ -68,7 +68,8 @@ class App extends React.Component {
       playlistTracks: [
         
       ],
-      playlists: []
+      playlists: [],
+      isSaved: false,
     };
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
@@ -79,6 +80,7 @@ class App extends React.Component {
     this.addPlaylist = this.addPlaylist.bind(this);
     this.removePlaylist = this.removePlaylist.bind(this);
     this.search = this.search.bind(this);
+    
   }
 
   addTrack(track) {
@@ -93,7 +95,7 @@ class App extends React.Component {
   addPlaylist() {
     this.state.playlists.push({
       name: this.state.playlistName,
-      tracks: this.state.playlistTracks
+      tracks: this.state.playlistTracks,
     });
     this.setState({playlists: this.state.playlists});
     //console.log(this.state.playlists[0][0])
@@ -105,6 +107,7 @@ class App extends React.Component {
       this.setState({playlistTracks: tracks});
   }
 
+  // removes an individual playlist from the Playlist component
   removePlaylist(playlist) {
       //console.log(this.state.playlists)
       let newPlaylists = this.state.playlists.filter(toBeKeptPlaylist => toBeKeptPlaylist.name !== playlist.name);
@@ -122,21 +125,29 @@ class App extends React.Component {
         playlistName: 'New Playlist',
         playlistTracks: []
       })
-    console.log(this.state.playlistName)
     })
   }
 
+  // added functionality that saves an individual playlist to Spotify from the Playlists component. Once saved, the playlist is removed from 'Playlists'
   savePlaylistFromPlaylists(playlist) {
     const trackUris = playlist.tracks.map(track => track.uri);
     Spotify.savePlaylist(playlist.name, trackUris)
-    /*
     .then(() => {
-      this.setState({
-        playlistName: 'New Playlist',
-        playlistTracks: []
-      })
-      */
-    //console.log(this.state.playlistName)
+      this.setState({isSaved: true})
+    })
+    .then(() => {
+      /* display the playlist in 'Playlists' for three seconds, then remove it once saved. The function in setTimeout must be defined as an
+      arrow function because otherwise the 'this' wouldn't be in the scope of the 'savePlaylistFromPlaylists' method. For this, see also
+      https://stackoverflow.com/questions/11714397/settimeout-scope-issue */
+      const timeoutID = setTimeout(() => {
+        let newPlaylists = this.state.playlists.filter(toBeKeptPlaylist => toBeKeptPlaylist.name !== playlist.name);
+        this.setState({playlists: newPlaylists});
+        this.setState({isSaved: false})
+      }, 3000
+      )
+      
+    })
+    
     
   }
 
@@ -147,11 +158,10 @@ class App extends React.Component {
       playlistTracks: []
     });
     
-    //console.log(this.state.playlistName)
   }
 
   search(term) {
-    console.log(this.state.playlistName);
+    //console.log(this.state.playlistName);
     Spotify.search(term).then((searchResults) => {
       this.setState({searchResults: searchResults})
     })
@@ -170,7 +180,8 @@ class App extends React.Component {
             {/*<!-- Add a Playlist component -->*/}
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}
             onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} onReset={this.resetPlaylist} onAddPlaylist={this.addPlaylist} />
-            <Playlists playlists={this.state.playlists} onRemovePlaylist={this.removePlaylist} onSavePlaylistFromPlaylists={this.savePlaylistFromPlaylists} />
+            <Playlists playlists={this.state.playlists} onRemovePlaylist={this.removePlaylist} 
+            onSavePlaylistFromPlaylists={this.savePlaylistFromPlaylists} isSaved={this.state.isSaved} />
           </div>
         </div>
       </div>

@@ -4,8 +4,10 @@ import './SavedPlaylist.css';
 class SavedPlaylist extends React.Component {
     constructor(props) {
         super(props);
+        
         this.removePlaylist = this.removePlaylist.bind(this);
         this.savePlaylist = this.savePlaylist.bind(this);
+
     }
     renderAction() {
             return (
@@ -18,7 +20,8 @@ class SavedPlaylist extends React.Component {
     }
 
     savePlaylist() {
-        this.props.onSavePlaylistFromPlaylists(this.props.playlist)
+        this.setState({isSaved: true})
+        this.props.onSavePlaylistFromPlaylists(this.props.playlist);
     }
 
     render() {
@@ -26,10 +29,12 @@ class SavedPlaylist extends React.Component {
             <div className="PlaylistMain">
                 <div className="Playlist-information">
                     <h3>{this.props.playlist.name}</h3>
-                    <p>{this.props.playlist.tracks.length} </p>
+                    <p>{this.props.playlist.tracks.length} songs</p>
                 </div>
                 {this.renderAction()}
-                <button className="Playlist-action" onClick={this.savePlaylist}>SAVE</button>
+                <button className="Playlist-action" onClick={this.savePlaylist}>
+                    <img className='Spotify-image' src="/images/spotify.jpg" />
+                </button>
             </div>
         )
     }

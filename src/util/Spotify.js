@@ -90,7 +90,7 @@ const Spotify = {
                     return response.json()
                 })
                 .then((jsonResponse) => {
-                    console.log(jsonResponse)
+                    //console.log(jsonResponse)
                     let playlistID;
                     playlistID = jsonResponse.id;
                     return fetch(`https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/users/${userId}/playlists/${playlistID}/tracks`,
