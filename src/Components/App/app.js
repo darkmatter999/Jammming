@@ -70,6 +70,7 @@ class App extends React.Component {
       ],
       playlists: [],
       isSaved: false,
+      savedPlaylist: ''
     };
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
@@ -133,7 +134,8 @@ class App extends React.Component {
     const trackUris = playlist.tracks.map(track => track.uri);
     Spotify.savePlaylist(playlist.name, trackUris)
     .then(() => {
-      this.setState({isSaved: true})
+      this.setState({isSaved: true});
+      this.setState({savedPlaylist: playlist.name})
     })
     .then(() => {
       /* display the playlist in 'Playlists' for three seconds, then remove it once saved. The function in setTimeout must be defined as an
@@ -181,7 +183,7 @@ class App extends React.Component {
             <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack}
             onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} onReset={this.resetPlaylist} onAddPlaylist={this.addPlaylist} />
             <Playlists playlists={this.state.playlists} onRemovePlaylist={this.removePlaylist} 
-            onSavePlaylistFromPlaylists={this.savePlaylistFromPlaylists} isSaved={this.state.isSaved} />
+            onSavePlaylistFromPlaylists={this.savePlaylistFromPlaylists} isSaved={this.state.isSaved} savedPlaylist={this.state.savedPlaylist} />
           </div>
         </div>
       </div>

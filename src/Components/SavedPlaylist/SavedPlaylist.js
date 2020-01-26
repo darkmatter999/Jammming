@@ -29,7 +29,7 @@ class SavedPlaylist extends React.Component {
             <div className="PlaylistMain">
                 <div className="Playlist-information">
                     <h3>{this.props.playlist.name}</h3>
-                    <p>{this.props.playlist.tracks.length} songs</p>
+                    <p>{this.props.playlist.tracks.length} {this.props.playlist.tracks.length === 1 ? 'song' : 'songs'}</p>
                 </div>
                 {this.renderAction()}
                 <button className="Playlist-action" onClick={this.savePlaylist}>
